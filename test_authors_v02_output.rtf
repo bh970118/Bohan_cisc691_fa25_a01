@@ -1,0 +1,63 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;\f1\fswiss\fcharset0 ArialMT;\f2\froman\fcharset0 TimesNewRomanPSMT;
+\f3\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red30\green40\blue49;\red255\green255\blue255;\red26\green26\blue26;
+\red23\green30\blue37;\red193\green193\blue193;}
+{\*\expandedcolortbl;;\cssrgb\c15294\c20784\c25098;\cssrgb\c100000\c100000\c100000;\cssrgb\c13333\c13333\c13333;
+\cssrgb\c11765\c15686\c19216;\cssrgb\c80000\c80000\c80000;}
+\margl1440\margr1440\vieww31520\viewh18960\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf2 \cb3 \expnd0\expndtw0\kerning0
+So we enhance the function of make signature, to basically have it capture features of certain author with more aspects using more features as unique word %, long word % (since some authors prefer long words and we would like the algorithm to capture this feature) and etc. The algorithm gives the result - \
+\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown1.txt: Mark Twain\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown2.txt: Mark Twain\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown3.txt: Jane Austen\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown4.txt: Charles Dickens\
+\
+We noticed unknown txt 1 and 2 are both classified as Mark Twain, so we go back and look into the algorithm, noticed that potentially some added features are assigned equal weights in make_guess function in calculation of Euclidean distance. This makes some features that naturally have larger numbers within their range have dominant weights than other features. So we need to normalize each feature to make sure they are comparable. Updated results are:\
+\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown1.txt: Mark Twain\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown2.txt: Charles Dickens\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown3.txt: Jane Austen\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown4.txt: Charles Dickens\
+\
+Normalized signatures for known authors:\
+Mark Twain: (np.float64(0.3982371861268167), np.float64(0.7678047960940356), np.float64(0.7919413874837324), np.float64(0.0), np.float64(0.0), np.float64(0.05531821156418129), np.float64(0.9698355370691778), np.float64(0.7678047960940356))\
+Jane Austen: (np.float64(1.0), np.float64(0.0), np.float64(0.0), np.float64(1.0), np.float64(0.1292207457194803), np.float64(1.0), np.float64(0.0), np.float64(0.0))\
+Charles Dickens: (np.float64(0.0), np.float64(0.12224791607632501), np.float64(0.16554894146783936), np.float64(0.08428326143872396), np.float64(1.0), np.float64(0.7671888501009347), np.float64(0.5101489269566252), np.float64(0.12224791607632501))\
+Arthur Conan Doyle: (np.float64(0.5318888633972765), np.float64(1.0), np.float64(1.0), np.float64(0.45672595072100725), np.float64(0.18956219715182107), np.float64(0.0), np.float64(1.0), np.float64(1.0))\
+\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown1.txt normalized signature: (np.float64(0.053161547565632884), np.float64(0.9442242561861124), np.float64(0.989339006936368), np.float64(-0.010640505961853463), np.float64(0.545999729124109), np.float64(-0.16075687843170877), np.float64(1.1132487991201647), np.float64(0.9442242561861124))\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown1.txt: Mark Twain\
+\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown2.txt normalized signature: (np.float64(0.5680488557776914), np.float64(0.2831421428942094), np.float64(0.28832802041208405), np.float64(0.39588014683050654), np.float64(0.23323498185460664), np.float64(0.7898418058468283), np.float64(0.5116469488080662), np.float64(0.2831421428942094))\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown2.txt: Charles Dickens\
+\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown3.txt normalized signature: (np.float64(0.7079491796508097), np.float64(0.07621227937563145), np.float64(0.2094717447033797), np.float64(0.66345023381582), np.float64(0.22088030765463768), np.float64(1.2694659002514943), np.float64(1.012727218305899), np.float64(0.07621227937563145))\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown3.txt: Jane Austen\
+\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown4.txt normalized signature: (np.float64(-0.9634911112465039), np.float64(0.13411183300376073), np.float64(0.21466784355854268), np.float64(-1.1539122134340543), np.float64(1.7199011835430789), np.float64(-0.5124439671934938), np.float64(0.7479861788352823), np.float64(0.13411183300376073))\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown4.txt: Charles Dickens\
+\
+This gives 
+\f1 \cf4 unknown1 is closest to Mark Twain in features 2, 3, 7, 8.\cb1 \
+\cb3 unknown2 is closest to Dickens in features 6, 7.\cb1 \
+\cb3 unknown3 is closest to Jane Austen in features 1, 4, 6, 7.\cb1 \
+\cb3 unknown4 is closest to Dickens in features 5, 7.
+\f0 \cf2 \
+\
+To enhance the function, we add weights to different feature in calculating Euclidean distance in make guess function, and the updated result is:\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown1.txt: Arthur Conan Doyle\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown2.txt: Charles Dickens\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown3.txt: Jane Austen\
+/Users/bh0118/Desktop/Harrisburg/691/A01/additional_book_files/ch11/unknown4.txt: Mark Twain\
+\
+With weight to each feature weight = [8,18,8,1,1,15] with features 
+\f2 \cf5 \cb1 \outl0\strokewidth0 \strokec5 [avg_word_len, diff_to_total, once_to_total, prop_long_words, prop_short_words, unique_long_ratio]
+\f3\fs24 \cf6 \outl0\strokewidth0 \
+
+\f0\fs32 \cf2 \cb3 \
+}
